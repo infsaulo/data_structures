@@ -11,7 +11,7 @@ template<class T>
 HashTable<T>::HashTable(int size)
 {
     this->size = size;
-    table = new vector< vector<T> >(size, vector<T>());
+    table = shared_ptr< vector< vector<T> > >(new vector< vector<T> >(size, vector<T>()));
 }
 
 template <class T>
@@ -50,10 +50,4 @@ int HashTable<T>::hashFunction(string key)
     hashValue %= size;
 
     return hashValue;
-}
-
-template <class T>
-HashTable<T>::~HashTable()
-{
-    delete table;
 }

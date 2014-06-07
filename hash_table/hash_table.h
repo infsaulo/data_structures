@@ -11,7 +11,7 @@ template<class T>
 class HashTable
 {
     private:
-    vector< vector<T> > *table;
+    shared_ptr< vector< vector<T> > > table;
     int size;
 
     public:
@@ -20,7 +20,6 @@ class HashTable
     void insert(T entry);
     T retrieve(string key);
     int hashFunction(string key);
-    ~HashTable();
 };
 #include "hash_table.cpp"
 
