@@ -9,17 +9,17 @@ using namespace std;
 template <class T>
 HashTable<T>::HashTable(int size)
 {
-    table = new vector<T*>(size, NULL);
+    table = shared_ptr< vector<T> >(new vector<T>(size, (T)NULL));
     this->size = size;
     loadFactor = 0;
 }
 
 template <class T>
-void HashTable<T>::insert(T *element)
+void HashTable<T>::insert(T element)
 {
     int hashedPosition = hashFunction(element->getKey());
 
-    while((*table)[hashedPosition] != NULL)
+    while((*table)[hashedPosition])
     {
         hashedPosition++; // linear hashing to deal with colision
         hashedPosition %= size;
@@ -43,11 +43,11 @@ void HashTable<T>::resize()
     size = newSize;
     setLoadFactor(0.0);
 
-    vector<T*> *resizedTable = new vector<T*>(size, NULL);
-    for(typename vector<T*>::iterator it = table->begin(); it != table->end(); it++)
+    shared_ptr< vector<T> > resizedTable(new vector<T>(size, (T)NULL));
+    for(typename vector<T>::iterator it = table->begin(); it != table->end(); it++)
     {
         int hashedPosition = hashFunction((*it)->getKey());
-        while((*resizedTable)[hashedPosition] != NULL)
+        while((*resizedTable)[hashedPosition])
         {
             hashedPosition++;
             hashedPosition %= size;
@@ -57,7 +57,7 @@ void HashTable<T>::resize()
         setLoadFactor(getLoadFactor() + 1.0/size);
     }
 
-    delete table;
+    table.reset();
     table = resizedTable;
 }
 
@@ -74,7 +74,7 @@ void HashTable<T>::setLoadFactor(float loadFactor)
 }
 
 template <class T>
-T* HashTable<T>::retrieve(string key)
+T HashTable<T>::retrieve(string key)
 {
     int hashedPosition = hashFunction(key);
     int originHashedPosition = hashedPosition;
@@ -85,7 +85,7 @@ T* HashTable<T>::retrieve(string key)
         hashedPosition %= size;
         if(hashedPosition == originHashedPosition)
         {
-            return NULL;
+            return (T)NULL;
         }
     }
 
@@ -103,15 +103,4 @@ int HashTable<T>::hashFunction(string key)
 
     value %= size;
     return value;
-}
-
-template <class T>
-HashTable<T>::~HashTable()
-{
-    for(int index=0; index < size; index++)
-    {
-        delete (*table)[index];
-    }
-
-    delete table;
 }

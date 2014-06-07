@@ -5,24 +5,23 @@
 
 using namespace std;
 
-// T must be a <key, value> entry being key a string. T must implements getKey, getVale, setKey, setValue.
+// T must be a <key, value> entry being key a string. T must implements getKey, getVale, setKey, setValue. T must be a shared_ptr of any type you desire.
 template<class T>
 class HashTable
 {
     float loadFactor;
     int size;
-    vector<T*> *table;
+    shared_ptr< vector<T> > table;
 
     public:
 
     HashTable(int size);
-    void insert(T *element);
-    T* retrieve(string key);
+    void insert(T element);
+    T retrieve(string key);
     int hashFunction(string key);
     float getLoadFactor();
     void setLoadFactor(float loadFactor);
     void resize();
-    ~HashTable();
 };
 #include "open_address_hash_table.cpp"
 

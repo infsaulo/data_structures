@@ -45,11 +45,11 @@ string Entry::getValue()
 
 bool resize_test()
 {
-    HashTable<Entry> table(3);
+    HashTable< shared_ptr<Entry> > table(3);
 
-    Entry *entry1 = new Entry("saulo", "value1");
-    Entry *entry2 = new Entry("mark", "value2");
-    Entry *entry3 = new Entry("cynthia", "value3");
+    shared_ptr<Entry> entry1(new Entry("saulo", "value1"));
+    shared_ptr<Entry> entry2(new Entry("mark", "value2"));
+    shared_ptr<Entry> entry3(new Entry("cynthia", "value3"));
 
     table.insert(entry1);
     if(table.getLoadFactor() > 0.5)
@@ -73,7 +73,7 @@ bool resize_test()
         return false;
     }
 
-    if(table.retrieve("saulo") != NULL && table.retrieve("mark") != NULL && table.retrieve("cynthia") != NULL && table.retrieve("saulo")->getValue() == "value1" && table.retrieve("mark")->getValue() == "value2" && table.retrieve("cynthia")->getValue() == "value3")
+    if(table.retrieve("saulo") && table.retrieve("mark") && table.retrieve("cynthia") && table.retrieve("saulo")->getValue() == "value1" && table.retrieve("mark")->getValue() == "value2" && table.retrieve("cynthia")->getValue() == "value3")
     {
         printf("TEST RESIZE --- OK\n");
         return true;
@@ -83,11 +83,11 @@ bool resize_test()
 
 bool insert_test()
 {
-    HashTable<Entry> table(3);
+    HashTable< shared_ptr<Entry> > table(3);
 
-    Entry *entry1 = new Entry("saulo", "value1");
-    Entry *entry2 = new Entry("mark", "value2");
-    Entry *entry3 = new Entry("cynthia", "value3");
+    shared_ptr<Entry> entry1(new Entry("saulo", "value1"));
+    shared_ptr<Entry> entry2(new Entry("mark", "value2"));
+    shared_ptr<Entry> entry3(new Entry("cynthia", "value3"));
 
     table.insert(entry1);
     table.insert(entry2);
@@ -107,20 +107,20 @@ bool insert_test()
 
 bool retrieve_test()
 {
-    HashTable<Entry> table(3);
+    HashTable< shared_ptr<Entry> > table(3);
 
-    Entry *entry1 = new Entry("saulo", "value1");
-    Entry *entry2 = new Entry("mark", "value2");
-    Entry *entry3 = new Entry("cynthia", "value3");
+    shared_ptr<Entry> entry1(new Entry("saulo", "value1"));
+    shared_ptr<Entry> entry2(new Entry("mark", "value2"));
+    shared_ptr<Entry> entry3(new Entry("cynthia", "value3"));
  
     table.insert(entry1);
     table.insert(entry2);
     table.insert(entry3);
 
-    Entry *retrieved1 = table.retrieve("mark");
-    Entry *retrieved2 = table.retrieve("cynthia");
+    shared_ptr<Entry> retrieved1 = table.retrieve("mark");
+    shared_ptr<Entry> retrieved2 = table.retrieve("cynthia");
 
-    if(retrieved1 != NULL && retrieved2 != NULL && retrieved1->getValue() == "value2" && retrieved2->getValue() == "value3")
+    if(retrieved1 && retrieved2 && retrieved1->getValue() == "value2" && retrieved2->getValue() == "value3")
     {
         printf("TEST RETRIEVE --- OK\n");
         return true;
