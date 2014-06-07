@@ -5,18 +5,20 @@
 
 using namespace std;
 
-// Class T must implement getKey, getValue, setKey, setValue, as it need to be a <key, value> object, and key must be a string.
+// Class T must implement getKey, getValue, setKey, setValue, as it need to be a <key, value> object, and key must be a string. Use T as a boost pointer of the  type you desire.
+
 template<class T>
 class HashTable
 {
-    vector< vector<T*> > *table;
+    private:
+    vector< vector<T> > *table;
     int size;
 
     public:
     
     HashTable(int size);
-    void insert(T *entry);
-    T* retrieve(string key);
+    void insert(T entry);
+    T retrieve(string key);
     int hashFunction(string key);
     ~HashTable();
 };

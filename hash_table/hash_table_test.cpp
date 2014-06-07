@@ -1,6 +1,8 @@
 #include <cstdio>
 #include "hash_table.h"
 
+using namespace std;
+
 class Entry
 {
     string key;
@@ -43,17 +45,17 @@ string Entry::getValue()
 
 bool insert_retrieve_test()
 {
-    Entry *entry1 = new Entry("saulo", "value1");
-    Entry *entry2 = new Entry("mark", "value2");
-    Entry *entry3 = new Entry("cynthia", "value3");
+    shared_ptr<Entry> entry1(new Entry("saulo", "value1"));
+    shared_ptr<Entry> entry2(new Entry("mark", "value2"));
+    shared_ptr<Entry> entry3(new Entry("cynthia", "value3"));
 
-    HashTable<Entry> table(2);
+    HashTable< shared_ptr<Entry> > table(2);
 
     table.insert(entry1);
     table.insert(entry2);
     table.insert(entry3);
 
-    if(table.retrieve("saulo") != NULL && table.retrieve("mark") != NULL && table.retrieve("cynthia") != NULL && table.retrieve("saulo")->getValue() == "value1" && table.retrieve("mark")->getValue() == "value2" && table.retrieve("cynthia")->getValue() == "value3")
+    if(table.retrieve("saulo")  && table.retrieve("mark")  && table.retrieve("cynthia")  && table.retrieve("saulo")->getValue() == "value1" && table.retrieve("mark")->getValue() == "value2" && table.retrieve("cynthia")->getValue() == "value3")
     {
         printf("TEST INSERT RETRIEVE --- OK\n");
         return true;

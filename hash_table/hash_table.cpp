@@ -11,11 +11,11 @@ template<class T>
 HashTable<T>::HashTable(int size)
 {
     this->size = size;
-    table = new vector< vector<T*> >(size, vector<T*>());
+    table = new vector< vector<T> >(size, vector<T>());
 }
 
 template <class T>
-void HashTable<T>::insert(T *entry)
+void HashTable<T>::insert(T entry)
 {
     int hashedPosition = hashFunction(entry->getKey());
 
@@ -23,11 +23,11 @@ void HashTable<T>::insert(T *entry)
 }
 
 template <class T>
-T* HashTable<T>::retrieve(string key)
+T HashTable<T>::retrieve(string key)
 {
     int hashedPosition = hashFunction(key);
 
-    for(typename vector<T*>::iterator it = (*table)[hashedPosition].begin(); it != (*table)[hashedPosition].end(); it++)
+    for(typename vector<T>::iterator it = (*table)[hashedPosition].begin(); it != (*table)[hashedPosition].end(); it++)
     {
         if((*it)->getKey() == key)
         {
@@ -35,7 +35,7 @@ T* HashTable<T>::retrieve(string key)
         }
     }
 
-    return NULL;
+    return (T)NULL;
 }
 
 template <class T>
@@ -55,13 +55,5 @@ int HashTable<T>::hashFunction(string key)
 template <class T>
 HashTable<T>::~HashTable()
 {
-    for(typename vector< vector<T*> >::iterator it = table->begin(); it != table->end(); it++)
-    {
-        for(int index = 0; index < it->size(); index++)
-        {
-            delete (*it)[index];
-        }
-    }
-
     delete table;
 }
